@@ -11,82 +11,42 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Restaurant Menu App',
+      title: 'Tech Store App',
       theme: ThemeData(
-        primarySwatch: Colors.orange,
+        primarySwatch: Colors.blue,
       ),
       home: const ProductCatalogPage(),
     );
   }
 }
 
-// 1-ші экран: Басты каталог (Тізім)
 class ProductCatalogPage extends StatelessWidget {
   const ProductCatalogPage({super.key});
 
   final List> products = const [
     {
-      'name': 'Пицца Pepperoni',
-      'category': 'Фастфуд',
-      'price': 2500,
+      'name': 'Ноутбук',
+      'category': 'Электроника',
+      'price': 250000,
       'rating': 4.8,
-      'time': '20 мин',
-      'description': 'Дәмді ірімшік пен шұжық қосылған ыстық пицца.',
-      'icon': Icons.local_pizza,
+      'description': 'Жұмыс пен оқуға арналған қуатты ноутбук.',
+      'icon': Icons.laptop,
     },
     {
-      'name': 'Бургер Classic',
-      'category': 'Фастфуд',
-      'price': 1800,
-      'rating': 4.5,
-      'time': '15 мин',
-      'description': 'Сиыр етінен жасалған шырынды котлет пен балғын көкөністер.',
-      'icon': Icons.lunch_dining,
-    },
-    {
-      'name': 'Цезарь салаты',
-      'category': 'Салаттар',
-      'price': 1500,
-      'rating': 4.7,
-      'time': '10 мин',
-      'description': 'Тауық еті, қытырлақ сухари және арнайы тұздық.',
-      'icon': Icons.rice_bowl,
-    },
-    {
-      'name': 'Томат сорпасы',
-      'category': 'Сорпалар',
-      'price': 1200,
-      'rating': 4.2,
-      'time': '12 мин',
-      'description': 'Ыстық және дәмді итальяндық томат сорпасы.',
-      'icon': Icons.soup_kitchen,
-    },
-    {
-      'name': 'Ролл Филадельфия',
-      'category': 'Суши',
-      'price': 3200,
+      'name': 'Смартфон',
+      'category': 'Электроника',
+      'price': 180000,
       'rating': 4.9,
-      'time': '25 мин',
-      'description': 'Қызыл балық пен крем-ірімшіктен жасалған жапондық ролл.',
-      'icon': Icons.set_meal,
+      'description': 'Жоғары сапалы камерасы бар жаңа үлгідегі смартфон.',
+      'icon': Icons.smartphone,
     },
     {
-      'name': 'Картоп фри',
-      'category': 'Снектер',
-      'price': 900,
-      'rating': 4.0,
-      'time': '10 мин',
-      'description': 'Қытырлақ алтын түстес картоп фри.',
-      'icon': Icons.fastfood,
-    },
-    {
-      'name': 'Балмұздақ десерті',
-      'category': 'Десерт',
-      'price': 1100,
-      'rating': 4.6,
-      'time': '5 мин',
-      'description': 'Шоколад сиропы қосылған тәтті балмұздақ.',
-      'icon': Icons.icecream,
+      'name': 'Құлаққап',
+      'category': 'Аксессуарлар',
+      'price': 15000,
+      'rating': 4.5,
+      'description': 'Шуды басатын функциясы бар сымсыз құлаққап.',
+      'icon': Icons.headphones,
     },
   ];
 
@@ -94,7 +54,7 @@ class ProductCatalogPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Мейрамхана Мәзірі'),
+        title: const Text('Тауарлар каталогы'),
       ),
       body: ListView.builder(
         itemCount: products.length,
@@ -102,14 +62,10 @@ class ProductCatalogPage extends StatelessWidget {
           final product = products[index];
           return Card(
             margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-            elevation: 3,
             child: ListTile(
-              leading: Icon(product['icon'], size: 40, color: Colors.orange),
-              title: Text(
-                product['name'],
-                style: const TextStyle(fontWeight: FontWeight.bold),
-              ),
-              subtitle: Text('${product['category']} • Бағасы: ${product['price']} ₸'),
+              leading: Icon(product['icon'] as IconData, size: 40, color: Colors.blue),
+              title: Text(product['name'] as String, style: const TextStyle(fontWeight: FontWeight.bold)),
+              subtitle: Text('Бағасы: ${product['price']} ₸'),
               trailing: const Icon(Icons.arrow_forward_ios, size: 16),
               onTap: () {
                 Navigator.push(
@@ -127,7 +83,6 @@ class ProductCatalogPage extends StatelessWidget {
   }
 }
 
-// 2-ші экран: Толық ақпарат экраны (Detail Screen)
 class ProductDetailPage extends StatelessWidget {
   final Map<String, dynamic> product;
 
@@ -135,11 +90,11 @@ class ProductDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool isCheap = product['price'] < 2000;
+    bool isEffectiveOffer = (product['price'] as int) < 50000;
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(product['name']),
+        title: Text('${product['name']} Detail'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(20),
@@ -147,14 +102,10 @@ class ProductDetailPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Center(
-              child: Icon(
-                product['icon'],
-                size: 100,
-                color: Colors.orange,
-              ),
+              child: Icon(product['icon'] as IconData, size: 100, color: Colors.blue),
             ),
             const SizedBox(height: 20),
-            if (isCheap)
+            if (isEffectiveOffer)
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                 margin: const EdgeInsets.only(bottom: 15),
@@ -168,7 +119,7 @@ class ProductDetailPage extends StatelessWidget {
                 ),
               ),
             Text(
-              product['name'],
+              product['name'] as String,
               style: const TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 10),
@@ -183,13 +134,8 @@ class ProductDetailPage extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             Text(
-              'Дайындалу уақыты: ${product['time']}',
-              style: const TextStyle(fontSize: 18),
-            ),
-            const SizedBox(height: 8),
-            Text(
               'Бағасы: ${product['price']} ₸',
-              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.deepOrange),
+              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.blue),
             ),
             const SizedBox(height: 15),
             Text(
@@ -203,7 +149,7 @@ class ProductDetailPage extends StatelessWidget {
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                child: const Text('Каталогқа қайту'),
+                child: const Text('Артқа қайту'),
               ),
             ),
           ],
